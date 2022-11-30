@@ -1,0 +1,4 @@
+ExpenseTracker/node_modules
+backend/__pycache__/
+*.py[cod]
+*$py.class
