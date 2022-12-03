@@ -1,6 +1,11 @@
 from expense import db
+import datetime
 from expense.models import Users
 from flask_jwt_extended import create_access_token,jwt_required,current_user
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import set_access_cookies
 from flask import Blueprint, request, jsonify
 
 users = Blueprint('users',__name__)
@@ -19,9 +24,11 @@ def login():
     email = loginData["email"]
     password = loginData["password"]
     user = Users.query.filter_by(email=email).first()
+    response = jsonify({"msg": "login successful"})
     if user and user.check_password(password):
         token = create_access_token(identity=user.public_id)
-        return jsonify({"token": token}),200
+        set_access_cookies(response, token)
+        return response,200
     return jsonify({"msg":"Invalid reques"}),500
 
 @users.route('/get_users', methods=["GET"])
