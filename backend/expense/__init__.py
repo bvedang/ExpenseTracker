@@ -1,17 +1,10 @@
 import os
-from datetime import datetime
-from datetime import timedelta
-from datetime import timezone
-from flask_jwt_extended import JWTManager
+from datetime import datetime,timedelta,timezone
+from flask_jwt_extended import JWTManager,get_jwt,get_jwt_identity,JWTManager,set_access_cookies
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
-from flask_migrate import Migrate, migrate
-from flask_jwt_extended import get_jwt
-from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import JWTManager
-from flask_jwt_extended import set_access_cookies
-
+from flask_migrate import Migrate
 
 
 
