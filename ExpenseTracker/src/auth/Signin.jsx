@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Card,
   CardActions,
@@ -7,8 +7,11 @@ import {
   TextField,
   Typography,
   Icon,
+  Alert,
 } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import { signin, getallUsers } from './api-auth';
+import { Cookies } from 'react-cookie';
 
 export default function Signin(props) {
   const [values, setValues] = useState({
@@ -17,22 +20,40 @@ export default function Signin(props) {
     error: '',
     redirectToReferrer: false,
   });
+  const [error, setError] = useState(false);
 
   const navigate = useNavigate();
 
-  const clickSubmit = async() => {
+  const clickSubmit = async () => {
     const user = {
       email: values.email || undefined,
       password: values.password || undefined,
     };
-    console.log(user);
-    if (user.email === 'vedang@hawk.iit.edu' && user.password === '1234') {
-      setValues({ ...values, error: '', redirectToReferrer: true });
-      navigate('/');
-    }
-
+    signin(user).then((data) => {
+      if (data) {
+        console.log(data);
+        navigate('/temp')
+      } else {
+        setError(true);
+      }
+    });
   };
-  
+
+  const errorMessage = () => {
+    if (error) {
+      return (
+        <Alert
+          onClose={() => {
+            setError(false);
+          }}
+          variant="filled"
+          severity="error"
+        >
+          Invalid Credential!
+        </Alert>
+      );
+    }
+  };
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
@@ -57,7 +78,9 @@ export default function Signin(props) {
         >
           Sign In
         </Typography>
+        {errorMessage()}
         <TextField
+          error={error}
           id="email"
           type="email"
           label="Email"
@@ -72,6 +95,7 @@ export default function Signin(props) {
         />
         <br />
         <TextField
+          error={error}
           id="password"
           type="password"
           label="Password"

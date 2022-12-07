@@ -2,8 +2,10 @@ import React from 'react';
 import { Card, CardMedia, CardContent, Typography } from '@mui/material';
 import tempImage from '../assets/812.jpg';
 import { Link } from 'react-router-dom';
+import {Cookies} from 'react-cookie';
 
 export default function Home() {
+  
   return (
     <Card
       sx={{
@@ -14,6 +16,8 @@ export default function Home() {
     >
       <Link to="/users">TO USERS</Link>
       <Link to="/signup"> TO Signup</Link>
+      <Link to="/signin"> TO SignIn</Link>
+
       <Typography
         variant="h6"
         sx={{

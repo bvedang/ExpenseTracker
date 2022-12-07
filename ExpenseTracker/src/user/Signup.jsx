@@ -14,6 +14,7 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export default function Signup() {
   const [values, setValues] = useState({
@@ -23,6 +24,7 @@ export default function Signup() {
     error: '',
   });
   const [open, setOpen] = useState(false);
+  
 
   const handleUservalueChange = (valueName) => (event) => {
     setValues({ ...values, [valueName]: event.target.value });
@@ -38,7 +40,27 @@ export default function Signup() {
       email: values.email || undefined,
       password: values.password || undefined,
     };
-    setOpen(true);
+    axios({
+      method: 'post',
+      mode: 'cors',
+      url: 'http://127.0.0.1:5000/user/create_user',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      data: JSON.stringify({
+        email: user.email,
+        password: user.password,
+        name: user.name,
+      }),
+    })
+      .then((resp) => {
+        setOpen(true);
+        console.log(resp);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

@@ -3,7 +3,7 @@ import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
-class Users(db.Model):
+class UsersModel(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     public_id = db.Column(db.String(128), unique=True)
