@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Card,
   CardActions,
@@ -10,18 +10,17 @@ import {
   Alert,
 } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { signin, getallUsers } from './api-auth';
-import { Cookies } from 'react-cookie';
+import { signin } from './api-auth';
+import AuthContext from '../store/auth-context';
 
 export default function Signin(props) {
+  const authctx = useContext(AuthContext);
   const [values, setValues] = useState({
     email: '',
     password: '',
     error: '',
-    redirectToReferrer: false,
   });
-  const [error, setError] = useState(false);
-
+  const error = authctx.authError;
   const navigate = useNavigate();
 
   const clickSubmit = async () => {
@@ -29,14 +28,8 @@ export default function Signin(props) {
       email: values.email || undefined,
       password: values.password || undefined,
     };
-    signin(user).then((data) => {
-      if (data) {
-        console.log(data);
-        navigate('/temp')
-      } else {
-        setError(true);
-      }
-    });
+    authctx.onLogin(user);
+    navigate('/profile')
   };
 
   const errorMessage = () => {
@@ -44,7 +37,7 @@ export default function Signin(props) {
       return (
         <Alert
           onClose={() => {
-            setError(false);
+            authctx.resetAuthError();
           }}
           variant="filled"
           severity="error"

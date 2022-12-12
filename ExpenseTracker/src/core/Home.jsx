@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, CardMedia, CardContent, Typography } from '@mui/material';
 import tempImage from '../assets/812.jpg';
 import { Link } from 'react-router-dom';
-import {Cookies} from 'react-cookie';
 
 export default function Home() {
   
