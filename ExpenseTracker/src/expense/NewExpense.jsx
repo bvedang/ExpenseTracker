@@ -9,8 +9,7 @@ import {
   Icon,
   autocompleteClasses,
 } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-import DateFnsUtils from '@date-io/date-fns';
+import { useNavigate } from 'react-router-dom';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
@@ -60,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NewExpense() {
   const classes = useStyles();
+  const navigate = useNavigate()
   const userContext = useContext(AuthContext);
   const [values, setValues] = useState({
     userId: userContext.user.id,
@@ -88,9 +88,9 @@ export default function NewExpense() {
       incurred_on: values.incurred_on || undefined,
       notes: values.notes || undefined,
     };
-    console.log(expense);
 
-    newExpense(expense,token).then((resp) => console.log(resp));
+    newExpense(expense, token).then((resp) => console.log(resp));
+    navigate('/user/expenses')
   };
   return (
     <div>
@@ -131,10 +131,12 @@ export default function NewExpense() {
           <br />
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DateTimePicker
-              label="Incurred on"
+              disableFuture
+              label="Responsive"
+              showTodayButton
+              views={['year', 'month', 'day']}
               value={values.incurred_on}
               onChange={handleDateChange}
-              showTodayButton
               renderInput={(params) => (
                 <TextField {...params} className={classes.textField} />
               )}

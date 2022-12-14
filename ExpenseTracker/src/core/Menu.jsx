@@ -5,9 +5,10 @@ import HomeIcon from '@mui/icons-material/Home';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import AuthContext from '../store/auth-context';
+import Expenses from '../expense/Expenses';
 
 export default function Menu() {
-  const authContext = useContext(AuthContext)
+  const authContext = useContext(AuthContext);
   const navigate = useNavigate();
 
   return (
@@ -21,9 +22,7 @@ export default function Menu() {
             <HomeIcon />
           </IconButton>
         </NavLink>
-        <Button component={NavLink} to="/newExpense" sx={{ color: '#fff' }}>
-          Add Expense
-        </Button>
+
         <Button component={NavLink} to="/users" sx={{ color: '#fff' }}>
           Users
         </Button>
@@ -40,6 +39,16 @@ export default function Menu() {
         )}
         {authContext.isLoggedIn && (
           <span>
+            <Button component={NavLink} to="/newExpense" sx={{ color: '#fff' }}>
+              Add Expense
+            </Button>
+            <Button
+              component={NavLink}
+              to="/user/expenses"
+              sx={{ color: '#fff' }}
+            >
+              Expenses
+            </Button>
             <Button component={NavLink} to="/profile" sx={{ color: '#fff' }}>
               My Profile
             </Button>

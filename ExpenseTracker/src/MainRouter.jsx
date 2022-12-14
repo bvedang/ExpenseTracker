@@ -10,6 +10,7 @@ import Menu from './core/Menu';
 import AuthContext from './store/auth-context';
 import PageNotFound from './auth/PageNotFound';
 import NewExpense from './expense/NewExpense';
+import Expenses from './expense/Expenses';
 
 export default function MainRouter() {
   const authContext = useContext(AuthContext);
@@ -18,11 +19,21 @@ export default function MainRouter() {
       <Menu />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path='/newExpense' element={<NewExpense/>}/>
+        {authContext.isLoggedIn ? (
+          <Route path="/newExpense" element={<NewExpense />} />
+        ) : (
+          <Route path="/newExpense" element={<PageNotFound />} />
+        )}
+
         {authContext.isLoggedIn ? (
           <Route path="/users" element={<Users />} />
         ) : (
           <Route path="/users" element={<PageNotFound />} />
+        )}
+        {authContext.isLoggedIn ? (
+          <Route path="/user/expenses" element={<Expenses />} />
+        ) : (
+          <Route path="/user/expenses" element={<PageNotFound />} />
         )}
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
