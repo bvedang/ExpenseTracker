@@ -11,9 +11,14 @@ const AuthContext = React.createContext({
   resetAuthError: () => {},
   getUserProfile: (token) => {},
   getuserExpenses: (token, firstDate, lastDate) => {},
-  updateuserExpenseDate: (index) => (date) => {},
+  updateuserExpenseDate: (newDate, index) => (date) => {},
   updateUserExpenseData: (name, index) => (event) => {},
   deletuserExpenses: (expense) => {},
+  currentMonthExpense: 0,
+  todaysExpense: 0,
+  yesterdaysExpense: 0,
+  getmonthlyPreview: (token) => {},
+  setUserExpenses: (userExpenses) => {},
 });
 
 export default AuthContext;

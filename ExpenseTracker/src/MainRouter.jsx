@@ -11,6 +11,7 @@ import AuthContext from './store/auth-context';
 import PageNotFound from './auth/PageNotFound';
 import NewExpense from './expense/NewExpense';
 import Expenses from './expense/Expenses';
+import ExpenseOverview from './expense/ExpenseOverview';
 
 export default function MainRouter() {
   const authContext = useContext(AuthContext);
@@ -19,6 +20,7 @@ export default function MainRouter() {
       <Menu />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/user/expenseOverview" element={<ExpenseOverview />} />
         {authContext.isLoggedIn ? (
           <Route path="/newExpense" element={<NewExpense />} />
         ) : (

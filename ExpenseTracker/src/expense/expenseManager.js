@@ -85,4 +85,21 @@ const deleteUserExpense = async (token, expenseId) => {
   }
 };
 
-export { newExpense, getUserExpenses, updateUserExpense, deleteUserExpense };
+const currentMonthPreview = async (token) => {
+  try {
+    let response = await axios({
+      method: 'get',
+      mode: 'cors',
+      url: 'http://127.0.0.1:5000//user/monthlyPreview',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { newExpense, getUserExpenses, updateUserExpense, deleteUserExpense, currentMonthPreview };

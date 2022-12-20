@@ -32,7 +32,7 @@ export default function Profile() {
     navigate('/user/edit/' + userProfile.id, { state: userProfile });
   };
   return (
-    <Paper sx={{ minWidth: 500, margin: 'auto', p: 3, mt: 5 }} elevation={4}>
+    <Paper sx={{ minWidth: 500, margin: 3, p: 3, mt: 5 }} elevation={4}>
       <Typography variant="h6" sx={{ mt: 3, color: '#2bbd7e' }}>
         Profile
       </Typography>

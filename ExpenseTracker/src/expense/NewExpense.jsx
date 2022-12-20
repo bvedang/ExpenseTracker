@@ -7,16 +7,20 @@ import {
   TextField,
   Typography,
   Icon,
-  autocompleteClasses,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { DatePicker } from '@mui/x-date-pickers';
 import AuthContext from '../store/auth-context';
 import { makeStyles } from '@mui/styles';
 import { NavLink } from 'react-router-dom';
 import { newExpense } from './expenseManager';
+import { format, parseISO } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -58,9 +62,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function NewExpense() {
+  const token = localStorage.getItem('jwt');
+  const categories = [
+    'Entertainment',
+    'Food & Drink',
+    'Home',
+    'Life',
+    'Transportation',
+    'Uncategorized',
+    'Utilities',
+  ];
   const classes = useStyles();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const userContext = useContext(AuthContext);
+
   const [values, setValues] = useState({
     userId: userContext.user.id,
     title: '',
@@ -70,13 +85,9 @@ export default function NewExpense() {
     notes: '',
     error: '',
   });
-  const token = localStorage.getItem('jwt');
+
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
-  };
-
-  const handleDateChange = (date) => {
-    setValues({ ...values, incurred_on: date });
   };
 
   const clickSubmit = () => {
@@ -85,12 +96,12 @@ export default function NewExpense() {
       title: values.title || undefined,
       category: values.category || undefined,
       amount: values.amount || undefined,
-      incurred_on: values.incurred_on || undefined,
+      incurred_on: format(values.incurred_on, 'dd-MM-yyyy') || undefined,
       notes: values.notes || undefined,
     };
-
+    console.log(expense);
     newExpense(expense, token).then((resp) => console.log(resp));
-    navigate('/user/expenses')
+    navigate('/user/expenses');
   };
   return (
     <div>
@@ -119,24 +130,37 @@ export default function NewExpense() {
             type="number"
           />
           <br />
-          <TextField
-            id="category"
-            label="Category"
-            className={classes.textField}
-            value={values.category}
-            onChange={handleChange('category')}
-            margin="normal"
-          />
+          <FormControl sx={{ mt: 2, mb: 1 }}>
+            <InputLabel id="category-Label">Category</InputLabel>
+            <Select
+              className={classes.textField}
+              labelId="category-Label"
+              id="category-select"
+              value={values.category}
+              label="Category"
+              onChange={handleChange('category')}
+            >
+              {categories.map((category, index) => {
+                return (
+                  <MenuItem value={category} key={index}>
+                    {category}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
           <br />
           <br />
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DateTimePicker
+            <DatePicker
               disableFuture
               label="Responsive"
               showTodayButton
               views={['year', 'month', 'day']}
               value={values.incurred_on}
-              onChange={handleDateChange}
+              onChange={(newValue) => {
+                setValues({ ...values, incurred_on: newValue });
+              }}
               renderInput={(params) => (
                 <TextField {...params} className={classes.textField} />
               )}

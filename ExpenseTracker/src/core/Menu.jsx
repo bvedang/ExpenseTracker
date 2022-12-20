@@ -6,6 +6,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import AuthContext from '../store/auth-context';
 import Expenses from '../expense/Expenses';
+import ExpenseOverview from '../expense/ExpenseOverview';
 
 export default function Menu() {
   const authContext = useContext(AuthContext);
@@ -52,9 +53,13 @@ export default function Menu() {
             <Button component={NavLink} to="/profile" sx={{ color: '#fff' }}>
               My Profile
             </Button>
+            <Button component={NavLink} to="/user/expenseOverview" sx={{ color: '#fff' }}>
+              ExpenseOverview
+            </Button>
             <Button color="inherit" onClick={authContext.onLogOut}>
               Sign out
             </Button>
+
           </span>
         )}
       </Toolbar>

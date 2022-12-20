@@ -9,16 +9,21 @@ import {
   Button,
   Icon,
   AccordionDetails,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from '@mui/material/';
 import { ExpandMore } from '@mui/icons-material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { DatePicker } from '@mui/x-date-pickers';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../store/auth-context';
 import { makeStyles } from '@mui/styles';
 import DeleteExpense from './DeleteExpense';
 import { updateUserExpense } from './expenseManager';
+import { format } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
   panel: {
     border: '1px solid #58bd7f',
+    marginTop: 12,
     margin: 6,
   },
   info: {
@@ -50,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     width: 90,
   },
   amount: {
-    fontSize: '1.6em',
+    fontSize: '2em',
     color: '#2bbd7e',
   },
   search: {
@@ -76,6 +82,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Expenses() {
+  const categories = [
+    'Entertainment',
+    'Food & Drink',
+    'Home',
+    'Life',
+    'Transportation',
+    'Uncategorized',
+    'Utilities',
+  ];
   const userCtx = useContext(AuthContext);
   const token = localStorage.getItem('jwt');
   const [saved, setSaved] = useState(false);
@@ -88,19 +103,17 @@ export default function Expenses() {
   const [lastDay, setLastDay] = useState(new Date(y, m + 1, 0));
 
   useEffect(() => {
-    userCtx.getuserExpenses(token, firstDay, lastDay);
-  }, []);
-  console.log(userCtx.userExpenses);
-  const handleSearchFieldChange = (name) => (date) => {
-    if (name == 'firstDay') {
-      setFirstDay(date);
-    } else {
-      setLastDay(date);
-    }
-  };
+    const formatedFirstDay = format(firstDay, 'dd-MM-yyyy');
+    const formatedLastDay = format(lastDay, 'dd-MM-yyyy');
+    userCtx.getuserExpenses(token, formatedFirstDay, formatedLastDay);
+  }, [firstDay, lastDay]);
+
   const searchClicked = () => {
-    userCtx.getuserExpenses(token, firstDay, lastDay);
+    const formatedFirstDay = format(firstDay, 'dd-MM-yyyy');
+    const formatedLastDay = format(lastDay, 'dd-MM-yyyy');
+    userCtx.getuserExpenses(token, formatedFirstDay, formatedLastDay);
   };
+
   const clickUpdate = (index) => {
     let expense = userCtx.userExpenses[index];
     console.log(expense);
@@ -112,34 +125,32 @@ export default function Expenses() {
       }, 3000);
     });
   };
-  const removeExpense = (expense) => {
-    const updatedExpenses = [...expenses];
-    const index = updatedExpenses.indexOf(expense);
-    updatedExpenses.splice(index, 1);
-    setExpenses(updatedExpenses);
-  };
   return (
     <div className={classes.root}>
       <div className={classes.search}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DateTimePicker
+          <DatePicker
             disableFuture
             label="SHOWING RECORDS FROM"
             inputFormat="dd/MM/yyyy"
             views={['year', 'month', 'day']}
             value={firstDay}
-            onChange={handleSearchFieldChange('firstDay')}
+            onChange={(newDate) => {
+              setFirstDay(newDate);
+            }}
             renderInput={(params) => (
               <TextField {...params} className={classes.textField} />
             )}
           />
-          <DateTimePicker
+          <DatePicker
             disableFuture
             label="TO"
             inputFormat="dd/MM/yyyy"
             views={['year', 'month', 'day']}
             value={lastDay}
-            onChange={handleSearchFieldChange('lastDay')}
+            onChange={(newDate) => {
+              setLastDay(newDate);
+            }}
             renderInput={(params) => (
               <TextField {...params} className={classes.textField} />
             )}
@@ -162,7 +173,7 @@ export default function Expenses() {
                   <Divider style={{ marginTop: 4, marginBottom: 4 }} />
                   <Typography>{expense.category}</Typography>
                   <Typography className={classes.date}>
-                    {new Date(expense.incurred_on).toLocaleDateString()}
+                    {new Date(expense.incurred_on).toDateString()}
                   </Typography>
                 </div>
                 <div>
@@ -195,24 +206,46 @@ export default function Expenses() {
                 </div>
                 <div>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DateTimePicker
+                    <DatePicker
                       label="Incurred on"
                       showTodayButton
                       views={['year', 'month', 'day']}
                       value={expense.incurred_on}
-                      onChange={userCtx.updateuserExpenseDate(index)}
+                      onChange={(newDate) => {
+                        const updatedExpenses = [...userCtx.userExpenses];
+                        updatedExpenses[index].incurred_on = format(
+                          new Date(newDate),
+                          'yyyy/MM/dd'
+                        );
+                        userCtx.setUserExpenses(updatedExpenses);
+                      }}
                       renderInput={(params) => (
                         <TextField {...params} className={classes.textField} />
                       )}
                     />
                   </LocalizationProvider>
-                  <TextField
-                    label="Category"
-                    className={classes.textField}
-                    value={expense.category}
-                    onChange={userCtx.updateUserExpenseData('category', index)}
-                    margin="normal"
-                  />
+                  <FormControl>
+                    <InputLabel id="category-Label">Category</InputLabel>
+                    <Select
+                      className={classes.textField}
+                      labelId="category-Label"
+                      id="category-select"
+                      value={expense.category}
+                      label="Category"
+                      onChange={userCtx.updateUserExpenseData(
+                        'category',
+                        index
+                      )}
+                    >
+                      {categories.map((category, index) => {
+                        return (
+                          <MenuItem value={category} key={index}>
+                            {category}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </FormControl>
                 </div>
                 <TextField
                   label="Notes"
@@ -249,7 +282,10 @@ export default function Expenses() {
                   >
                     Update
                   </Button>
-                  <DeleteExpense expense={expense} onRemove={userCtx.deletuserExpenses} />
+                  <DeleteExpense
+                    expense={expense}
+                    onRemove={userCtx.deletuserExpenses}
+                  />
                 </div>
               </AccordionDetails>
             </Accordion>
