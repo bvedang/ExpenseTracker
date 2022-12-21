@@ -77,6 +77,7 @@ export default function Signin(props) {
           id="email"
           type="email"
           label="Email"
+          variant='standard'
           sx={{
             marginLeft: 1,
             marginRight: 1,
@@ -92,6 +93,7 @@ export default function Signin(props) {
           id="password"
           type="password"
           label="Password"
+          variant='standard'
           sx={{
             marginLeft: 1,
             marginRight: 1,

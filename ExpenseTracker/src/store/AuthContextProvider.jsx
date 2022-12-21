@@ -5,6 +5,7 @@ import { getCurrentUser } from '../user/userApi';
 import {
   getUserExpenses,
   currentMonthPreview,
+  currentMonthCategoryExpensePreview,
 } from '../expense/expenseManager';
 import AuthContext from './auth-context';
 import { format } from 'date-fns';
@@ -28,6 +29,8 @@ export default function AuthContextProvider(props) {
     publicId: '',
     id: '',
   });
+  const [currentMonthCategoryExpense, setcurrentMonthCategoryExpense] =
+    useState([]);
   const [authError, setAuthError] = useState(false);
   const [userExpenses, setUserExpenses] = useState([]);
   const [currentMonthExpense, setCurrentMonthExpense] = useState(0);
@@ -111,6 +114,15 @@ export default function AuthContextProvider(props) {
       setYesterdaysExpense(parseFloat(data.yesterDayExpense).toFixed(1));
     });
   };
+
+  const handleMonthlyCategoryExpense = (token) => {
+    currentMonthCategoryExpensePreview(token).then((resp) => {
+      const data = resp.data;
+      // console.log(data)
+      setcurrentMonthCategoryExpense(data.currMonthExpense);
+    });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -132,6 +144,8 @@ export default function AuthContextProvider(props) {
         yesterdaysExpense: yesterdaysExpense,
         getmonthlyPreview: handleMonthlyPreview,
         setUserExpenses: setUserExpenses,
+        currenMonthCategoyExpense: currentMonthCategoryExpense,
+        getMonthlyCategoryPreview: handleMonthlyCategoryExpense,
       }}
     >
       {props.children}

@@ -20,7 +20,7 @@ import AuthContext from '../store/auth-context';
 import { makeStyles } from '@mui/styles';
 import { NavLink } from 'react-router-dom';
 import { newExpense } from './expenseManager';
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -35,8 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     marginTop: theme.spacing(2),
-    color: theme.palette.openTitle,
-    fontSize: '1em',
+    fontSize: '2em',
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -46,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: 'auto',
     marginBottom: theme.spacing(2),
+    color: '#fff',
   },
   input: {
     display: 'none',
@@ -107,8 +107,13 @@ export default function NewExpense() {
     <div>
       <Card className={classes.card}>
         <CardContent>
-          <Typography type="headline" component="h2" className={classes.title}>
-            Expense Record
+          <Typography
+            type="headline"
+            color="primary"
+            component="h2"
+            className={classes.title}
+          >
+            Add New Expense
           </Typography>
           <br />
           <TextField
@@ -118,6 +123,7 @@ export default function NewExpense() {
             value={values.title}
             onChange={handleChange('title')}
             margin="normal"
+            variant="standard"
           />
           <br />
           <TextField
@@ -127,6 +133,7 @@ export default function NewExpense() {
             value={values.amount}
             onChange={handleChange('amount')}
             margin="normal"
+            variant="standard"
             type="number"
           />
           <br />
@@ -138,6 +145,7 @@ export default function NewExpense() {
               id="category-select"
               value={values.category}
               label="Category"
+              variant="standard"
               onChange={handleChange('category')}
             >
               {categories.map((category, index) => {
@@ -162,13 +170,18 @@ export default function NewExpense() {
                 setValues({ ...values, incurred_on: newValue });
               }}
               renderInput={(params) => (
-                <TextField {...params} className={classes.textField} />
+                <TextField
+                  {...params}
+                  variant="standard"
+                  className={classes.textField}
+                />
               )}
             />
           </LocalizationProvider>
           <br />
           <br />
           <TextField
+            variant="standard"
             id="multiline-flexible"
             label="Notes"
             multiline
@@ -198,8 +211,9 @@ export default function NewExpense() {
             Submit
           </Button>
           <Button
-            component={NavLink}
-            to="/"
+            onClick={() => {
+              navigate('/user/expenseOverview');
+            }}
             className={classes.submit}
             variant="contained"
             color="secondary"

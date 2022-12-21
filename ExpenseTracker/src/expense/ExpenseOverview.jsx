@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@mui/styles';
 import { Card, Typography, Divider } from '@mui/material';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AuthContext from '../store/auth-context';
-import Expenses from './Expenses';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -14,18 +13,16 @@ const useStyles = makeStyles((theme) => ({
   },
   title2: {
     padding: `32px ${theme.spacing(2.5)}px 2px`,
-    color: '#2bbd7e',
   },
   totalSpent: {
     padding: '50px 40px',
     fontSize: '4em',
     margin: 20,
     marginBottom: 30,
-    backgroundColor: '#01579b',
-    color: '#70f0ae',
+    backgroundColor: '#3f50b5',
+    color: 'white',
     textAlign: 'center',
     borderRadius: '50%',
-    border: '10px double #70f0ae',
     fontWeight: 300,
   },
   categorySection: {
@@ -58,13 +55,19 @@ const useStyles = makeStyles((theme) => ({
   spent: {
     margin: '16px 10px 10px 0',
     padding: '10px 30px',
-    border: '4px solid #58bd7f38',
+    border: '4px solid #ff7961',
     borderRadius: '0.5em',
   },
   day: {
     fontSize: '0.9em',
     fontStyle: 'italic',
     color: '#696969',
+  },
+
+  seemoreLink: {
+    color: '#ba000d',
+    textDecoration: 'none',
+    fontStyle: 'italic',
   },
 }));
 
@@ -79,12 +82,29 @@ function ExpenseOverview() {
     userCtx.todaysExpense,
     userCtx.yesterdaysExpense,
   ]);
+
+  useEffect(() => {
+    userCtx.getMonthlyCategoryPreview(token);
+  }, []);
+  const indicateExpense = (values) => {
+    let color = '#4f83cc';
+    if (values.total) {
+      const diff = values.total - values.average;
+      if (diff > 0) {
+        color = '#e9858b';
+      }
+      if (diff < 0) {
+        color = '#2bbd7e';
+      }
+    }
+    return color;
+  };
   return (
     <Card className={classes.card}>
       <Typography
         variant="h4"
+        color="primary"
         className={classes.title2}
-        color="textPrimary"
         style={{ textAlign: 'center' }}
       >
         You've spent
@@ -111,13 +131,86 @@ function ExpenseOverview() {
             ${userCtx.yesterdaysExpense ? userCtx.yesterdaysExpense : '0'}{' '}
             <span className={classes.day}>yesterday </span>
           </Typography>
-          {/* <Link to="/expenses/all">
+          <Link className={classes.seemoreLink} to="/user/expenses">
             <Typography variant="h6">See more</Typography>
-          </Link> */}
+          </Link>
         </div>
       </div>
       <Divider />
-      <div className={classes.categorySection}> </div>
+      <div className={classes.categorySection}>
+        {userCtx.currenMonthCategoyExpense.map((expense, index) => {
+          return (
+            <div
+              key={index}
+              style={{ display: 'grid', justifyContent: 'center' }}
+            >
+              <Typography variant="h5" className={classes.catTitle}>
+                {expense.category}
+              </Typography>
+              <Divider
+                className={classes.catDiv}
+                style={{
+                  backgroundColor: indicateExpense(expense.category),
+                }}
+              />
+              <div>
+                <Typography
+                  component="span"
+                  className={`${classes.catHeading} ${classes.val}`}
+                >
+                  past average
+                </Typography>
+                <Typography
+                  component="span"
+                  className={`${classes.catHeading} ${classes.val}`}
+                >
+                  this month
+                </Typography>
+                <Typography
+                  component="span"
+                  className={`${classes.catHeading} ${classes.val}`}
+                >
+                  {expense.total && expense.total - expense.avg > 0
+                    ? 'spent extra'
+                    : 'saved'}
+                </Typography>
+              </div>
+              <div style={{ marginBottom: 3 }}>
+                <Typography
+                  component="span"
+                  className={classes.val}
+                  style={{ color: '#595555', fontSize: '1.15em' }}
+                >
+                  ${expense.avg}
+                </Typography>
+                <Typography
+                  component="span"
+                  className={classes.val}
+                  style={{
+                    color: '#002f6c',
+                    fontSize: '1.6em',
+                    backgroundColor: '#ffbaad',
+                    padding: '8px 0',
+                  }}
+                >
+                  ${expense.total ? expense.total : 0}
+                </Typography>
+                <Typography
+                  component="span"
+                  className={classes.val}
+                  style={{ color: '#484646', fontSize: '1.25em' }}
+                >
+                  $
+                  {expense.total
+                    ? Math.abs(expense.total - expense.avg)
+                    : expense.avg}
+                </Typography>
+              </div>
+              <Divider style={{ marginBottom: 10 }} />
+            </div>
+          );
+        })}{' '}
+      </div>
     </Card>
   );
 }

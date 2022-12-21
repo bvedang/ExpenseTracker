@@ -93,7 +93,7 @@ class FilterdUserExpenses(Resource):
         toDate = datetime.datetime.strptime(
             args["lastDate"], "%d-%m-%Y").date()
         currExpenses = Expense.query.filter_by(userId=userId).filter(Expense.incurred_on >= fromDate).filter(
-            Expense.incurred_on <= toDate).order_by(Expense.incurred_on).all()
+            Expense.incurred_on <= toDate).order_by(Expense.incurred_on.desc()).all()
         currExpensesList = []
         if currExpenses:
             for currExpense in currExpenses:

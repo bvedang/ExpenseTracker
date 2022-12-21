@@ -35,7 +35,7 @@ export default function DeleteUser() {
       <IconButton
         aria-label="Delete"
         onClick={openConfirmClickHandler}
-        color="error"
+        color="secondary"
       >
         <Delete />
       </IconButton>
@@ -51,7 +51,7 @@ export default function DeleteUser() {
           </Button>
           <Button
             onClick={deleteUserAccount}
-            color="error"
+            color="secondary"
             autoFocus="autoFocus"
           >
             Confirm

@@ -19,6 +19,8 @@ const AuthContext = React.createContext({
   yesterdaysExpense: 0,
   getmonthlyPreview: (token) => {},
   setUserExpenses: (userExpenses) => {},
+  currenMonthCategoyExpense: [],
+  getMonthlyCategoryPreview: (token) => {},
 });
 
 export default AuthContext;

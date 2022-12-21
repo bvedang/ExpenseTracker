@@ -33,7 +33,7 @@ export default function DeleteExpense(props) {
   };
   return (
     <span>
-      <IconButton aria-label="Delete" onClick={handleRequestOpen}>
+      <IconButton aria-label="Delete" color="secondary" onClick={handleRequestOpen}>
         <Delete />
       </IconButton>
 

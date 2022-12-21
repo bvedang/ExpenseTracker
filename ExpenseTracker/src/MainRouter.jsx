@@ -12,6 +12,7 @@ import PageNotFound from './auth/PageNotFound';
 import NewExpense from './expense/NewExpense';
 import Expenses from './expense/Expenses';
 import ExpenseOverview from './expense/ExpenseOverview';
+import Report from './report/Report';
 
 export default function MainRouter() {
   const authContext = useContext(AuthContext);
@@ -20,7 +21,6 @@ export default function MainRouter() {
       <Menu />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/user/expenseOverview" element={<ExpenseOverview />} />
         {authContext.isLoggedIn ? (
           <Route path="/newExpense" element={<NewExpense />} />
         ) : (
@@ -48,6 +48,18 @@ export default function MainRouter() {
           <Route path="/user/edit/:userId" element={<EditProfile />} />
         ) : (
           <Route path="/user/edit/:userId" element={<PageNotFound />} />
+        )}
+
+        {authContext.isLoggedIn ? (
+          <Route path="/user/expenseOverview" element={<ExpenseOverview />} />
+        ) : (
+          <Route path="/user/expenseOverview" element={<PageNotFound />} />
+        )}
+
+        {authContext.isLoggedIn ? (
+          <Route path="/user/expenses/report" element={<Report />} />
+        ) : (
+          <Route path="/user/expenses/report" element={<PageNotFound />} />
         )}
       </Routes>
     </div>

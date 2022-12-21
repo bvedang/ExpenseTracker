@@ -33,7 +33,7 @@ export default function Profile() {
   };
   return (
     <Paper sx={{ minWidth: 500, margin: 3, p: 3, mt: 5 }} elevation={4}>
-      <Typography variant="h6" sx={{ mt: 3, color: '#2bbd7e' }}>
+      <Typography variant="h6" color="secondary">
         Profile
       </Typography>
       <List dense>

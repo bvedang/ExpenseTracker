@@ -47,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
     color: 'grey',
   },
   panel: {
-    border: '1px solid #58bd7f',
     marginTop: 12,
     margin: 6,
   },
@@ -57,7 +56,6 @@ const useStyles = makeStyles((theme) => ({
   },
   amount: {
     fontSize: '2em',
-    color: '#2bbd7e',
   },
   search: {
     display: 'flex',
@@ -98,9 +96,10 @@ export default function Expenses() {
   const classes = useStyles();
   const date = new Date(),
     y = date.getFullYear(),
-    m = date.getMonth();
+    m = date.getMonth(),
+    d = date.getDate();
   const [firstDay, setFirstDay] = useState(new Date(y, m, 1));
-  const [lastDay, setLastDay] = useState(new Date(y, m + 1, 0));
+  const [lastDay, setLastDay] = useState(new Date(y, m, d));
 
   useEffect(() => {
     const formatedFirstDay = format(firstDay, 'dd-MM-yyyy');
@@ -156,7 +155,12 @@ export default function Expenses() {
             )}
           />
         </LocalizationProvider>
-        <Button variant="contained" color="secondary" onClick={searchClicked}>
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={{ color: 'white' }}
+          onClick={searchClicked}
+        >
           GO
         </Button>
       </div>
@@ -167,7 +171,7 @@ export default function Expenses() {
             <Accordion className={classes.panel}>
               <AccordionSummary expandIcon={<ExpandMore />}>
                 <div className={classes.info}>
-                  <Typography className={classes.amount}>
+                  <Typography color="primary" className={classes.amount}>
                     $ {expense.amount}
                   </Typography>
                   <Divider style={{ marginTop: 4, marginBottom: 4 }} />
