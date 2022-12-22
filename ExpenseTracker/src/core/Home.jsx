@@ -13,10 +13,6 @@ export default function Home() {
         my: 5,
       }}
     >
-      <Link to="/users">TO USERS</Link>
-      <Link to="/signup"> TO Signup</Link>
-      <Link to="/signin"> TO SignIn</Link>
-
       <Typography
         variant="h6"
         sx={{

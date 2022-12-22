@@ -10,7 +10,6 @@ import {
   VictoryPie,
   VictoryTheme,
   VictoryLabel,
-  VictoryTooltip,
 } from 'victory';
 
 const useStyles = makeStyles((theme) => ({

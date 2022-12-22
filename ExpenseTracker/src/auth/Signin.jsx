@@ -9,8 +9,7 @@ import {
   Icon,
   Alert,
 } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-import { signin } from './api-auth';
+import { useNavigate } from 'react-router-dom';
 import AuthContext from '../store/auth-context';
 
 export default function Signin(props) {
@@ -29,7 +28,7 @@ export default function Signin(props) {
       password: values.password || undefined,
     };
     authctx.onLogin(user);
-    navigate('/profile')
+    navigate('/user/expenseOverview')
   };
 
   const errorMessage = () => {

@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../store/auth-context';
+import AddIcon from '@mui/icons-material/Add';
 
 export default function Menu() {
   const authContext = useContext(AuthContext);
@@ -37,7 +38,7 @@ export default function Menu() {
         )}
 
         {!authContext.isLoggedIn && (
-          <span>
+          <span style={{ float: 'right' }}>
             <Button
               sx={{ my: 2, color: 'white' }}
               onClick={() => {
@@ -61,35 +62,11 @@ export default function Menu() {
           <span>
             <Button
               onClick={() => {
-                navigate('/newExpense');
-              }}
-              sx={{ color: '#fff' }}
-            >
-              Add Expense
-            </Button>
-            <Button
-              onClick={() => {
                 navigate('/user/expenses');
               }}
               sx={{ color: '#fff' }}
             >
               Expenses
-            </Button>
-            <Button
-              onClick={() => {
-                navigate('/profile');
-              }}
-              sx={{ color: '#fff' }}
-            >
-              My Profile
-            </Button>
-            <Button
-              onClick={() => {
-                navigate('/user/expenseOverview');
-              }}
-              sx={{ color: '#fff' }}
-            >
-              ExpenseOverview
             </Button>
             <Button
               onClick={() => {
@@ -99,9 +76,30 @@ export default function Menu() {
             >
               Reports
             </Button>
-            <Button color="inherit" onClick={authContext.onLogOut}>
-              Sign out
-            </Button>
+            <span style={{ position: 'absolute', right: '10px' }}>
+              <Button
+                onClick={() => {
+                  navigate('/newExpense');
+                }}
+                sx={{ color: '#f44336', backgroundColor: '#ffffff', border:'1px solid #f44336', '&:hover':{color: '#f44336', backgroundColor: '#ffffff', border:'1px solid #f44336'} }}
+              >
+                <AddIcon style={{ marginRight: 4 }} />
+                Add Expense
+              </Button>
+
+              <Button
+                onClick={() => {
+                  navigate('/profile');
+                }}
+                sx={{ color: '#fff' }}
+              >
+                My Profile
+              </Button>
+
+              <Button color="inherit" onClick={authContext.onLogOut}>
+                Sign out
+              </Button>
+            </span>
           </span>
         )}
       </Toolbar>
