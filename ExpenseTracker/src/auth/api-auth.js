@@ -5,7 +5,7 @@ const signin = async (user) => {
     let response = await axios({
       method: 'post',
       mode: 'cors',
-      url: 'http://127.0.0.1:5000/user/login',
+      url: 'https://dolphin-app-95g38.ondigitalocean.app/user/login',
       headers: {
         'Content-Type': 'application/json',
       },

@@ -28,7 +28,9 @@ export default function Signin(props) {
       password: values.password || undefined,
     };
     authctx.onLogin(user);
-    navigate('/user/expenseOverview')
+    setTimeout(() => {
+      navigate('/user/expenseOverview');
+    }, 1000);
   };
 
   const errorMessage = () => {
@@ -76,7 +78,7 @@ export default function Signin(props) {
           id="email"
           type="email"
           label="Email"
-          variant='standard'
+          variant="standard"
           sx={{
             marginLeft: 1,
             marginRight: 1,
@@ -92,7 +94,7 @@ export default function Signin(props) {
           id="password"
           type="password"
           label="Password"
-          variant='standard'
+          variant="standard"
           sx={{
             marginLeft: 1,
             marginRight: 1,

@@ -39,6 +39,7 @@ export default function Signup() {
       email: values.email || undefined,
       password: values.password || undefined,
     };
+    console.log(user)
     signup(user).then((data) => {
       if (data) {
         console.log(data);

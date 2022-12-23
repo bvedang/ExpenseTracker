@@ -5,7 +5,7 @@ const newExpense = async (expense, token) => {
     let response = await axios({
       method: 'post',
       mode: 'cors',
-      url: 'http://127.0.0.1:5000/user/expenses',
+      url: 'https://dolphin-app-95g38.ondigitalocean.app/user/expenses',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,
@@ -23,7 +23,7 @@ const getUserExpenses = async (token, firstDate, lastDate) => {
     let response = await axios({
       method: 'post',
       mode: 'cors',
-      url: 'http://127.0.0.1:5000/user/filteredExpenses',
+      url: 'https://dolphin-app-95g38.ondigitalocean.app/user/filteredExpenses',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,
@@ -44,7 +44,7 @@ const updateUserExpense = async (userId, token, expense) => {
     let response = await axios({
       method: 'put',
       mode: 'cors',
-      url: 'http://127.0.0.1:5000/user/expenses',
+      url: 'https://dolphin-app-95g38.ondigitalocean.app/user/expenses',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,
@@ -70,7 +70,7 @@ const deleteUserExpense = async (token, expenseId) => {
     let response = await axios({
       method: 'delete',
       mode: 'cors',
-      url: 'http://127.0.0.1:5000/user/expenses',
+      url: 'https://dolphin-app-95g38.ondigitalocean.app/user/expenses',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,
@@ -90,7 +90,7 @@ const currentMonthPreview = async (token) => {
     let response = await axios({
       method: 'get',
       mode: 'cors',
-      url: 'http://127.0.0.1:5000/user/monthlyPreview',
+      url: 'https://dolphin-app-95g38.ondigitalocean.app/user/monthlyPreview',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,
@@ -107,7 +107,7 @@ const currentMonthCategoryExpensePreview = async (token) => {
     let response = await axios({
       method: 'get',
       mode: 'cors',
-      url: 'http://127.0.0.1:5000/user/monthlyCategoryExpense',
+      url: 'https://dolphin-app-95g38.ondigitalocean.app/user/monthlyCategoryExpense',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,
@@ -124,7 +124,7 @@ const monthlyExpense = async (token, monthYear) => {
     let response = await axios({
       method: 'post',
       mode: 'cors',
-      url: 'http://127.0.0.1:5000/user/monthlyScatter',
+      url: 'https://dolphin-app-95g38.ondigitalocean.app/user/monthlyScatter',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,
@@ -144,7 +144,7 @@ const yearlyExpense = async (token, year) => {
     let response = await axios({
       method: 'post',
       mode: 'cors',
-      url: 'http://127.0.0.1:5000/user/yearlyBar',
+      url: 'https://dolphin-app-95g38.ondigitalocean.app/user/yearlyBar',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,
@@ -164,7 +164,7 @@ const pieChartExpense = async (token, startDate, endDate) => {
     let response = await axios({
       method: 'post',
       mode: 'cors',
-      url: 'http://127.0.0.1:5000/user/pieChart',
+      url: 'https://dolphin-app-95g38.ondigitalocean.app/user/pieChart',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,

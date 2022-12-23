@@ -5,7 +5,7 @@ const getCurrentUser = async (token) => {
     let response = await axios({
       method: 'get',
       mode: 'cors',
-      url: 'http://127.0.0.1:5000/user/get_current_user',
+      url: 'https://dolphin-app-95g38.ondigitalocean.app/user/get_current_user',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,
@@ -22,7 +22,7 @@ const signup = async (user) => {
     let response = await axios({
       method: 'post',
       mode: 'cors',
-      url: 'http://127.0.0.1:5000/user/create_user',
+      url: 'https://dolphin-app-95g38.ondigitalocean.app/user/create_user',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -43,7 +43,7 @@ const getallUsers = async () => {
     let response = await axios({
       method: 'get',
       mode: 'cors',
-      url: 'http://127.0.0.1:5000/user/allUsers',
+      url: 'https://dolphin-app-95g38.ondigitalocean.app/user/allUsers',
       headers: {
         'Content-Type': 'application/json',
         Authorization: localStorage.getItem('jwt'),
@@ -60,7 +60,7 @@ const deleteUser = async () => {
     let response = await axios({
       method: 'delete',
       mode: 'cors',
-      url: 'http://127.0.0.1:5000/user/get_current_user',
+      url: 'https://dolphin-app-95g38.ondigitalocean.app/user/get_current_user',
       headers: {
         'Content-Type': 'application/json',
         Authorization: localStorage.getItem('jwt'),
@@ -77,7 +77,7 @@ const updateUser = async (user) => {
     let response = await axios({
       method: 'put',
       mode: 'cors',
-      url: 'http://127.0.0.1:5000/user/get_current_user',
+      url: 'https://dolphin-app-95g38.ondigitalocean.app/user/get_current_user',
       headers: {
         'Content-Type': 'application/json',
         Authorization: localStorage.getItem('jwt'),
